@@ -28,6 +28,12 @@ const log = (state = [], action) => {
       ];
     case "SEND_MESSAGE":
       return [...state, createLogEntry(action.logIds, action.entry, "MESSAGE")];
+    case "SEND_IMAGE_URL":
+      return [
+        ...state,
+        createLogEntry(action.logIds, `(${action.username})`, "MESSAGE"),
+        createLogEntry(action.logIds, action.url, "MESSAGE")
+      ];
     case "PLAY_ACTION":
     case "PLAY_TREASURE":
       return [
@@ -138,7 +144,9 @@ const log = (state = [], action) => {
         ...state,
         createLogEntry(
           action.logIds,
-          `Trash: ${action.trash.join(", ")}`,
+          action.trash.length === 0
+            ? "The trash is empty."
+            : `Trash: ${action.trash.join(", ")}.`,
           "INFO"
         )
       ];
@@ -180,6 +188,11 @@ const log = (state = [], action) => {
           `${action.username} joined as a spectator!`,
           "MESSAGE"
         )
+      ];
+    case "ADD_LOG":
+      return [
+        ...state,
+        createLogEntry(action.logIds, `${action.message}`, "MESSAGE")
       ];
     default:
       return state;

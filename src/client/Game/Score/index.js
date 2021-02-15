@@ -21,6 +21,7 @@ const Score = ({ score, socket }) =>
                 {s.gardensCount ? (
                   <div>{`${s.gardensCount} Gardens (${s.cardCount} cards)`}</div>
                 ) : null}
+                {s.noblesCount ? <div>{`${s.noblesCount} Nobles`}</div> : null}
                 {s.curseCount ? <div>{`${s.curseCount} Curses`}</div> : null}
               </div>
             </div>
@@ -52,7 +53,7 @@ const Score = ({ score, socket }) =>
   ) : null;
 
 Score.propTypes = {
-  score: PropTypes.object.isRequired,
+  score: PropTypes.arrayOf(PropTypes.object),
   socket: PropTypes.object
 };
 

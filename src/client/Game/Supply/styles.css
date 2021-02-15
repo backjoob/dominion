@@ -16,6 +16,10 @@
   width: 60px;
 }
 
+.gameSupplyCardImg:hover {
+  transform: scale(1);
+}
+
 .gameSupplyCardImg {
   display: block;
   margin-bottom: 3px;

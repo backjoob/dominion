@@ -21,6 +21,7 @@ const Game = ({ game, logEndRef, playerId, socket, username }) => {
           supply={game.supply}
           trash={game.trash}
           socket={socket}
+          trash={game.trash}
         />
         <Log
           isSpectator={isSpectator}
@@ -75,13 +76,13 @@ Game.propTypes = {
     }),
     log: PropTypes.arrayOf(
       PropTypes.shape({
-        ids: PropTypes.string,
+        ids: PropTypes.arrayOf(PropTypes.string),
         text: PropTypes.string,
         type: PropTypes.string
       })
     ),
     playerRequest: PropTypes.object,
-    score: PropTypes.object
+    score: PropTypes.arrayOf(PropTypes.object)
   }).isRequired,
   logEndRef: PropTypes.object.isRequired,
   playerId: PropTypes.string.isRequired,

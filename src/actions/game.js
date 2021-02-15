@@ -26,10 +26,11 @@ export function buyCard({ cardName, id, location, logIds, username }) {
   };
 }
 
-export function playTreasure({ cardName, id, logIds, username }) {
+export function playTreasure({ cardName, cardIndex, id, logIds, username }) {
   return {
     type: "PLAY_TREASURE",
     cardName,
+    cardIndex,
     id,
     logIds,
     username
@@ -40,10 +41,11 @@ export function gainActions({ actionAmount, id }) {
   return { type: "GAIN_ACTIONS", actionAmount, id };
 }
 
-export function playAction({ cardName, id, logIds, username }) {
+export function playAction({ cardName, cardIndex, id, logIds, username }) {
   return {
     type: "PLAY_ACTION",
     cardName,
+    cardIndex,
     id,
     logIds,
     username
@@ -77,6 +79,15 @@ export function sendMessage({ entry, logIds }) {
     type: "SEND_MESSAGE",
     entry,
     logIds
+  };
+}
+
+export function sendImageUrl({ logIds, username, url }) {
+  return {
+    type: "SEND_IMAGE_URL",
+    logIds,
+    username,
+    url
   };
 }
 
@@ -194,8 +205,8 @@ export function selectCardsInHand({
   };
 }
 
-export function selectOptions({ id, options, text }) {
-  return { type: "SELECT_OPTIONS", id, options, text };
+export function selectOptions({ id, options, text, flavorImage }) {
+  return { type: "SELECT_OPTIONS", id, options, text, flavorImage };
 }
 
 export function updateScore({ players }) {

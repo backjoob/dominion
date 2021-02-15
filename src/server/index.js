@@ -1,3 +1,4 @@
+import isEmpty from "lodash/isEmpty";
 import path from "path";
 import uuid from "uuid";
 import express from "express";
@@ -42,7 +43,11 @@ app.ws("/dominion", function(ws, req) {
   store.dispatch(asyncAddConnection({ ws, id: connectionId, username }));
 
   ws.on("message", function(msg) {
-    store.dispatch({ ...JSON.parse(msg), id: connectionId });
+    const msgObj = JSON.parse(msg);
+    if (isEmpty(msgObj)) {
+      return;
+    }
+    store.dispatch({ ...msgObj, id: connectionId });
   });
 
   ws.on("close", function() {

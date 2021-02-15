@@ -30,6 +30,7 @@ import {
   removeConnection,
   resetCardSelection,
   sendMessage,
+  sendImageUrl,
   startGame,
   updateScore,
   updateStatus
@@ -144,14 +145,15 @@ export function* asyncEndTurn({ id }) {
   );
 }
 
-export function* asyncPlayCard({ id, name: cardName }) {
+export function* asyncPlayCard({ id, cardName, cardIndex }) {
   const currentPlayer = yield select(currentPlayerSelector);
   const player = yield select(gamePlayerSelector);
   const playerRequest = yield select(gamePlayerRequestSelector);
   if (
     player.id !== id ||
     playerRequest ||
-    VICTORY_AND_CURSE_CARDS.includes(cardName)
+    (VICTORY_AND_CURSE_CARDS.includes(cardName) &&
+      !ACTION_CARDS.includes(cardName))
   ) {
     return;
   }
@@ -164,7 +166,10 @@ export function* asyncPlayCard({ id, name: cardName }) {
     return;
   }
 
-  yield put({ type: `ASYNC_PLAY_${snakeCase(cardName).toUpperCase()}` });
+  yield put({
+    type: `ASYNC_PLAY_${snakeCase(cardName).toUpperCase()}`,
+    cardIndex
+  });
 }
 
 export function* asyncPlayAllTreasures({ id }) {
@@ -180,6 +185,7 @@ export function* asyncPlayAllTreasures({ id }) {
     .length;
   const copperCount = player.cards.hand.filter(card => card === "Copper")
     .length;
+  // Don't need card indexes here since all available treasures will be played.
   for (let i = 0; i < goldCount; i++) {
     yield put({ type: "ASYNC_PLAY_GOLD" });
   }
@@ -240,6 +246,11 @@ export function* asyncSendMessage({ entry }) {
   yield put(sendMessage({ entry, logIds: playerIds }));
 }
 
+export function* asyncSendImageUrl({ username, url }) {
+  const playerIds = yield select(gamePlayerIdsSelector);
+  yield put(sendImageUrl({ logIds: playerIds, username, url }));
+}
+
 export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
   const player = yield select(gamePlayerFromIdSelector, id);
   const playerRequest = yield select(gamePlayerRequestSelector);
@@ -254,7 +265,8 @@ export function* asyncCompleteSelectCardsInHand({ id, cardIndexes }) {
     (playerRequest.maxSelectAmount != null &&
       cardIndexes.length > playerRequest.maxSelectAmount) ||
     (playerRequest.cardType === "TREASURE" &&
-      !TREASURE_CARDS.includes(cards[0]))
+      !TREASURE_CARDS.includes(cards[0]) &&
+      cardIndexes.length !== 0)
   ) {
     return;
   }
@@ -316,6 +328,7 @@ const gameSagas = [
   takeEvery("ASYNC_PLAY_ALL_TREASURES", asyncPlayAllTreasures),
   takeEvery("ASYNC_COMPLETE_CHOICE_GAIN_CARDS", asyncCompleteChoiceGainCards),
   takeEvery("ASYNC_SEND_MESSAGE", asyncSendMessage),
+  takeEvery("ASYNC_SEND_IMAGE_URL", asyncSendImageUrl),
   takeEvery(
     "ASYNC_COMPLETE_SELECT_CARDS_IN_HAND",
     asyncCompleteSelectCardsInHand

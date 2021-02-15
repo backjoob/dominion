@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./styles.css";
 
-const Supply = ({ playerId, playerRequest, supply, trash, socket }) => (
+const Supply = ({ playerId, playerRequest, supply, socket, trash }) => (
   <div className="gameSupply">
     {supply.map((c, index) => (
       <div
@@ -44,13 +44,13 @@ const Supply = ({ playerId, playerRequest, supply, trash, socket }) => (
         socket.send(
           JSON.stringify({
             type: "SHOW_TRASH",
-            trash,
-            logIds: [playerId]
+            logIds: [playerId],
+            trash
           })
         );
       }}
     >
-      <img className="gameSupplyCardImg" src={"./Trash.jpg"} />
+      <img className="gameSupplyCardImg" src="./Trash.jpg" />
       <div className="gameSupplyCardCount">{`Trash (${trash.length})`}</div>
     </div>
   </div>
@@ -59,13 +59,14 @@ const Supply = ({ playerId, playerRequest, supply, trash, socket }) => (
 Supply.propTypes = {
   playerId: PropTypes.string.isRequired,
   playerRequest: PropTypes.object,
+  socket: PropTypes.object,
   supply: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       count: PropTypes.number.isRequired
     })
-  ),
-  socket: PropTypes.object
+  ).isRequired,
+  trash: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
 };
 
 export default Supply;

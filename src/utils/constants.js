@@ -5,6 +5,8 @@ export const CARD_COSTS = {
   Estate: 2,
   Duchy: 5,
   Province: 8,
+  Oasis: 3,
+  Bazaar: 5,
   Cellar: 2,
   Chapel: 2,
   Moat: 2,
@@ -29,10 +31,19 @@ export const CARD_COSTS = {
   Mine: 5,
   Sentry: 5,
   Witch: 5,
-  Artisan: 6
+  Artisan: 6,
+  Margrave: 5,
+  "Spice Merchant": 4,
+  Nobles: 6
 };
 
-export const VICTORY_CARDS = ["Estate", "Duchy", "Province", "Gardens"];
+export const VICTORY_CARDS = [
+  "Estate",
+  "Duchy",
+  "Province",
+  "Gardens",
+  "Nobles"
+];
 
 export const VICTORY_AND_CURSE_CARDS = [...VICTORY_CARDS, "Curse"];
 
@@ -41,6 +52,8 @@ export const TREASURE_CARDS = ["Copper", "Silver", "Gold"];
 export const TREASURE_VALUES = { Copper: 1, Silver: 2, Gold: 3 };
 
 export const KINGDOM_CARDS = [
+  "Oasis",
+  "Bazaar",
   "Cellar",
   "Chapel",
   "Moat",
@@ -65,10 +78,15 @@ export const KINGDOM_CARDS = [
   "Mine",
   "Sentry",
   "Witch",
-  "Artisan"
+  "Artisan",
+  "Margrave",
+  "Spice Merchant",
+  "Nobles"
 ];
 
 export const ACTION_CARDS = [
+  "Oasis",
+  "Bazaar",
   "Cellar",
   "Chapel",
   "Moat",
@@ -92,5 +110,12 @@ export const ACTION_CARDS = [
   "Mine",
   "Sentry",
   "Witch",
-  "Artisan"
+  "Artisan",
+  "Margrave",
+  "Spice Merchant",
+  "Nobles"
 ];
+
+export const FLAVOR_IMAGES = {
+  PoutineCat: "./flavor_images/Pusheen.png"
+};
